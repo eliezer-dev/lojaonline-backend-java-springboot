@@ -1,11 +1,13 @@
 package dev.eliezer.lojaonline.modules.client.entities;
 
+import dev.eliezer.lojaonline.modules.order.entities.OrderEntity;
 import dev.eliezer.lojaonline.modules.shared.entities.Address;
 import dev.eliezer.lojaonline.modules.shared.entities.Phone;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -39,6 +41,9 @@ public class ClientEntity {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ClientPhoneEntity> phones;
+
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
+    private List<OrderEntity> orders = new ArrayList<>();
 
 
  }

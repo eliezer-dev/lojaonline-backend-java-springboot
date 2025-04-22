@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@MappedSuperclass
 public class Phone {
 
     @Column(nullable = false)

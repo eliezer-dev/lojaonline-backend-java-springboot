@@ -10,8 +10,10 @@ import java.util.List;
 @Data
 public class CreateOrderDTO {
 
-    @NotNull(message = "[userId] is not provided.")
-    private Long userId;
+
+    private Long userId = 1L;
+
+    private Long clientId;
 
     @NotNull(message = "[orderItems] is not provided")
     private List<CreateOrderItemDTO> orderItems = new ArrayList<>();

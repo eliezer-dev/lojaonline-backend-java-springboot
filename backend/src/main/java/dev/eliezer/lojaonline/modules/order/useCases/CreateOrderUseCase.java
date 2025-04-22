@@ -9,6 +9,8 @@ import dev.eliezer.lojaonline.integrations.pagarMe.payloads.FaturaPagarMeRespons
 import dev.eliezer.lojaonline.integrations.pagarMe.repositories.PagarMeInvoicesRepository;
 import dev.eliezer.lojaonline.integrations.pagarMe.services.PagarMeInvoiceService;
 import dev.eliezer.lojaonline.integrations.pagarMe.mappers.FaturaPagarMeRequestMapper;
+import dev.eliezer.lojaonline.modules.client.entities.ClientEntity;
+import dev.eliezer.lojaonline.modules.client.repositories.ClientRepository;
 import dev.eliezer.lojaonline.modules.order.dtos.*;
 import dev.eliezer.lojaonline.modules.order.entities.*;
 import dev.eliezer.lojaonline.integrations.pagarMe.payloads.FaturaPagarMeRequestPayload;
@@ -45,6 +47,9 @@ public class CreateOrderUseCase {
     private PagarMeInvoicesRepository pagarMeInvoicesRepository;
 
     @Autowired
+    private ClientRepository clientRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -57,6 +62,8 @@ public class CreateOrderUseCase {
     private OrderMapper orderMapper;
 
     private UserEntity user;
+
+    private ClientEntity client;
 
     private CreateOrderDTO request;
 
@@ -75,10 +82,13 @@ public class CreateOrderUseCase {
     private PagarMeResponseDTO pagarMeResponseDTO;
 
 
+
+
     public OrderResponseDTO execute (CreateOrderDTO dataReq) {
 
         this.request = dataReq;
         this.user = userRepository.findById(dataReq.getUserId()).orElseThrow(() -> new NotFoundException(request.getUserId()));
+        this.client = clientRepository.findById(dataReq.getClientId()).orElseThrow(() -> new NotFoundException(request.getClientId()));
 
         orderValidator ();
 
@@ -98,7 +108,7 @@ public class CreateOrderUseCase {
     public void saveOrder () {
 
         OrderEntity orderToSave = new OrderEntity();
-
+        orderToSave.setClient(client);
         orderToSave.setInvoiceNumber(request.getInvoiceNumber());
         orderToSave.setTotalValue(request.getTotalValue());
         orderToSave.setUser(user);
@@ -111,7 +121,7 @@ public class CreateOrderUseCase {
 
     public void savePagarMeInvoice () {
 
-        faturaPagarMeRequest = FaturaPagarMeRequestMapper.toFaturaPagarMeRequestPayload(request);
+        faturaPagarMeRequest = FaturaPagarMeRequestMapper.toFaturaPagarMeRequestPayload(request, client);
 
         ApiResponse retorno = pagarMeInvoiceService.createInvoice(faturaPagarMeRequest);
 

@@ -22,7 +22,7 @@ import java.util.List;
 public class CreateClientDTO extends ClientDTO{
 
     @NotBlank(message = "password not provided")
-    @jakarta.validation.constraints.Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+    @jakarta.validation.constraints.Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
             message = "password must be at least 8 characters long and contain both letters and numbers")
     @Schema(example = "Senha1234@@", requiredMode = Schema.RequiredMode.REQUIRED, description = "client password")
     private String password;

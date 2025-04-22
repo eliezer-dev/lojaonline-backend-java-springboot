@@ -1,12 +1,10 @@
 package dev.eliezer.lojaonline.modules.shared.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@MappedSuperclass
 public class Address {
     @Column(nullable = false)
     private String country;

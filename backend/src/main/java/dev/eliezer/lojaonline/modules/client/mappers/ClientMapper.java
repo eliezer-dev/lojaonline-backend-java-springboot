@@ -35,9 +35,9 @@ public class ClientMapper {
 
         }
 
-        if (!createClientDTO.getPhone().isEmpty()) {
-            clientEntity.setPhones(toClientPhoneEntity( createClientDTO.getPhone()));
-        }
+//        if (!createClientDTO.getPhone().isEmpty()) {
+//            clientEntity.setPhones(toClientPhoneEntity( createClientDTO.getPhone()));
+//        }
 
         return clientEntity;
 

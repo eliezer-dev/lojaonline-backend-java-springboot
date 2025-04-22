@@ -2,6 +2,7 @@ package dev.eliezer.lojaonline.modules.order.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.eliezer.lojaonline.integrations.pagarMe.Entity.PagarMeInvoicesEntity;
+import dev.eliezer.lojaonline.modules.client.entities.ClientEntity;
 import dev.eliezer.lojaonline.modules.order.dtos.CreateOrderDTO;
 import dev.eliezer.lojaonline.modules.product.entities.ProductEntity;
 import dev.eliezer.lojaonline.modules.user.entities.UserEntity;
@@ -29,6 +30,12 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client_id", nullable = true)
+    @JsonIgnore
+    @NotNull(message = "[client] is not provided.")
+    private ClientEntity client;
 
 
     @ManyToMany(fetch = FetchType.EAGER)
